@@ -8,9 +8,9 @@ namespace GildedRose.Tests
     public class ItemUpdaterTests
     {
         [Test]
-        public void StandardItemShouldLowerQualityAndSellInByOne()
+        public void PerishableItemShouldLowerQualityAndSellInByOne()
         {
-            var item = new Item(ItemType.Perishable) { Name = "+5 Dexterity Vest", SellIn = 3, Quality = 6 };
+            var item = new Item(ItemType.Perishable) { SellIn = 3, Quality = 6 };
 
             UpdateItem(item);
 
@@ -19,9 +19,9 @@ namespace GildedRose.Tests
         }
 
         [Test]
-        public void StandardItemShouldLowerQualityTwiceAsFastWhenSellInIsNegative()
+        public void PerishableItemShouldLowerQualityTwiceAsFastWhenSellInIsNegative()
         {
-            var item = new Item(ItemType.Perishable) { Name = "+5 Dexterity Vest", SellIn = -2, Quality = 6 };
+            var item = new Item(ItemType.Perishable) { SellIn = -2, Quality = 6 };
 
             UpdateItem(item);
 
@@ -30,9 +30,9 @@ namespace GildedRose.Tests
         }
 
         [Test]
-        public void StandardItemShouldLowerQualityTwiceAsFastWhenSellInIsZero()
+        public void PerishableItemShouldLowerQualityTwiceAsFastWhenSellInIsZero()
         {
-            var item = new Item(ItemType.Perishable) { Name = "+5 Dexterity Vest", SellIn = 0, Quality = 6 };
+            var item = new Item(ItemType.Perishable) {SellIn = 0, Quality = 6 };
 
             UpdateItem(item);
 
@@ -41,9 +41,9 @@ namespace GildedRose.Tests
         }
 
         [Test]
-        public void BackstagePassItemShouldIncreaseQualityTwiceAsFastWhenSellInLessThanElevenDays()
+        public void DesirableItemShouldIncreaseQualityTwiceAsFastWhenSellInLessThanElevenDays()
         {
-            var item = new Item(ItemType.Desirable) { Name = "Backstage passes to a TAFKAL80ETC concert", SellIn = 10, Quality = 6 };
+            var item = new Item(ItemType.Desirable) { SellIn = 10, Quality = 6 };
 
             UpdateItem(item);
 
@@ -52,9 +52,9 @@ namespace GildedRose.Tests
         }
 
         [Test]
-        public void BackstagePassItemShouldIncreaseQualityThreeTimesAsFastWhenSellInLessThanSixDays()
+        public void DesirableItemShouldIncreaseQualityThreeTimesAsFastWhenSellInLessThanSixDays()
         {
-            var item = new Item(ItemType.Desirable) { Name = "Backstage passes to a TAFKAL80ETC concert", SellIn = 5, Quality = 6 };
+            var item = new Item(ItemType.Desirable) { SellIn = 5, Quality = 6 };
 
             UpdateItem(item);
 
@@ -63,9 +63,9 @@ namespace GildedRose.Tests
         }
 
         [Test]
-        public void BackstagePassItemShouldHaveZeroQualityWhenSellInBelowZero()
+        public void DesirableItemShouldHaveZeroQualityWhenSellInBelowZero()
         {
-            var item = new Item(ItemType.Desirable) { Name = "Backstage passes to a TAFKAL80ETC concert", SellIn = 0, Quality = 6 };
+            var item = new Item(ItemType.Desirable) { SellIn = 0, Quality = 6 };
 
             UpdateItem(item);
 
@@ -73,13 +73,10 @@ namespace GildedRose.Tests
             Assert.AreEqual(-1, item.SellIn);
         }
 
-        [TestCase("Aged Brie")]
-        [TestCase("Merlot Red Wine")]
-        [TestCase("Stilton")]
-        [TestCase("Gruyere Cheese")]
-        public void AgedItemQualityIncreasesTwiceAsFastWhenSellInIsLessThanZero(string name)
+        [Test]
+        public void AgingItemQualityIncreasesTwiceAsFastWhenSellInIsLessThanZero()
         {
-            var item = new Item(ItemType.Aging) { Name = name, SellIn = 0, Quality = 6 };
+            var item = new Item(ItemType.Aging) {SellIn = 0, Quality = 6 };
 
             UpdateItem(item);
 
@@ -88,9 +85,9 @@ namespace GildedRose.Tests
         }
 
         [Test]
-        public void StandardItemQualityIsNeverNegative()
+        public void PerishableItemQualityIsNeverNegative()
         {
-            var item = new Item(ItemType.Perishable) { Name = "+5 Dexterity Vest", SellIn = 10, Quality = 0 };
+            var item = new Item(ItemType.Perishable) { SellIn = 10, Quality = 0 };
 
             UpdateItem(item);
 
@@ -99,9 +96,9 @@ namespace GildedRose.Tests
         }
 
         [Test]
-        public void SulfurasNeverDecreasesInQualityAndNeverHasToBeSold()
+        public void LegendaryNeverDecreasesInQualityAndNeverHasToBeSold()
         {
-            var item = new Item(ItemType.Legendary) { Name = "Sulfuras, Hand of Ragnaros", SellIn = 10, Quality = 80 };
+            var item = new Item(ItemType.Legendary) {SellIn = 10, Quality = 80 };
 
             UpdateItem(item);
 
@@ -109,13 +106,10 @@ namespace GildedRose.Tests
             Assert.AreEqual(10, item.SellIn);
         }
 
-        [TestCase("Aged Brie")]
-        [TestCase("Merlot Red Wine")]
-        [TestCase("Stilton")]
-        [TestCase("Gruyere Cheese")]
-        public void AgedItemQualityCanNeverBeMoreThanFifty(string name)
+        [Test]
+        public void AgingItemQualityCanNeverBeMoreThanFifty()
         {
-            var item = new Item(ItemType.Aging) { Name = name, SellIn = -1, Quality = 50 };
+            var item = new Item(ItemType.Aging) { SellIn = -1, Quality = 50 };
 
             UpdateItem(item);
 
@@ -124,9 +118,9 @@ namespace GildedRose.Tests
         }
 
         [Test]
-        public void ConjuredManaCakeQualityDecreasesTwiceAsFast()
+        public void ConjuredItemQualityDecreasesTwiceAsFast()
         {
-            var item = new Item(ItemType.Conjured) { Name = "Conjured Mana Cake", SellIn = 6, Quality = 10 };
+            var item = new Item(ItemType.Conjured) { SellIn = 6, Quality = 10 };
 
             UpdateItem(item);
 
@@ -134,13 +128,10 @@ namespace GildedRose.Tests
             Assert.AreEqual(5, item.SellIn);
         }
 
-        [TestCase("Aged Brie")]
-        [TestCase("Merlot Red Wine")]
-        [TestCase("Stilton")]
-        [TestCase("Gruyere Cheese")]
-        public void AgingItemIncreasesQualityWithAge(string name)
+        [Test]
+        public void AgingItemIncreasesQualityWithAge()
         {
-            var item = new Item(ItemType.Aging) { Name = name, SellIn = 1, Quality = 1};
+            var item = new Item(ItemType.Aging) { SellIn = 1, Quality = 1};
             
             UpdateItem(item);
 
