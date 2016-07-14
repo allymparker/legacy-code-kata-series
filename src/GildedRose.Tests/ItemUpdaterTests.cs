@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using GildedRose.Console;
 using NUnit.Framework;
 
@@ -125,6 +126,18 @@ namespace GildedRose.Tests
 
             Assert.AreEqual(8, item.Quality);
             Assert.AreEqual(5, item.SellIn);
+        }
+
+        [TestCase("Merlot Red Wine")]
+        [TestCase("Stilton")]
+        [TestCase("Gruyere Cheese")]
+        public void AgingItemIncreasesQualityWithAge(string name)
+        {
+            var item = new Item {Name = name, SellIn = 1, Quality = 1};
+            
+            UpdateItem(item);
+
+            Assert.IsTrue(item.Quality > 1);
         }
 
         private void UpdateItem(Item item)
