@@ -59,7 +59,10 @@ namespace GildedRose.Console
         {
             foreach (var item in items)
             {
-                if (item.Name == "Aged Brie")
+                if (item.Name == "Aged Brie"
+                    || item.Name == "Merlot Red Wine"
+                    || item.Name == "Stilton"
+                    || item.Name == "Gruyere Cheese")
                 {
                     UpdateAgeingItem(item);
                 }
@@ -74,7 +77,7 @@ namespace GildedRose.Console
                 else if (item.Name == "Conjured Mana Cake")
                 {
                     UpdateConjuredItem(item);
-                }
+                } 
                 else
                 {
                     UpdatePerishableItem(item);
