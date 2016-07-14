@@ -73,10 +73,13 @@ namespace GildedRose.Tests
             Assert.AreEqual(-1, item.SellIn);
         }
 
-        [Test]
-        public void AgedBrieQualityIncreasesTwiceAsFastWhenSellInIsLessThanZero()
+        [TestCase("Aged Brie")]
+        [TestCase("Merlot Red Wine")]
+        [TestCase("Stilton")]
+        [TestCase("Gruyere Cheese")]
+        public void AgedItemQualityIncreasesTwiceAsFastWhenSellInIsLessThanZero(string name)
         {
-            var item = new Item { Name = "Aged Brie", SellIn = 0, Quality = 6 };
+            var item = new Item { Name = name, SellIn = 0, Quality = 6 };
 
             UpdateItem(item);
 
@@ -106,10 +109,13 @@ namespace GildedRose.Tests
             Assert.AreEqual(10, item.SellIn);
         }
 
-        [Test]
-        public void AgedBrieQualityCanNeverBeMoreThanFifty()
+        [TestCase("Aged Brie")]
+        [TestCase("Merlot Red Wine")]
+        [TestCase("Stilton")]
+        [TestCase("Gruyere Cheese")]
+        public void AgedItemQualityCanNeverBeMoreThanFifty(string name)
         {
-            var item = new Item { Name = "Aged Brie", SellIn = -1, Quality = 50 };
+            var item = new Item { Name = name, SellIn = -1, Quality = 50 };
 
             UpdateItem(item);
 
@@ -128,6 +134,7 @@ namespace GildedRose.Tests
             Assert.AreEqual(5, item.SellIn);
         }
 
+        [TestCase("Aged Brie")]
         [TestCase("Merlot Red Wine")]
         [TestCase("Stilton")]
         [TestCase("Gruyere Cheese")]
@@ -137,7 +144,7 @@ namespace GildedRose.Tests
             
             UpdateItem(item);
 
-            Assert.IsTrue(item.Quality > 1);
+            Assert.AreEqual(2, item.Quality);
         }
 
         private void UpdateItem(Item item)
