@@ -23,17 +23,17 @@ namespace GildedRose.Console
             {
                 Items = new List<Item>
                 {
-                    new Item {Name = "+5 Dexterity Vest", SellIn = 10, Quality = 20},
-                    new Item {Name = "Aged Brie", SellIn = 2, Quality = 0},
-                    new Item {Name = "Elixir of the Mongoose", SellIn = 5, Quality = 7},
-                    new Item {Name = "Sulfuras, Hand of Ragnaros", SellIn = 0, Quality = 80},
-                    new Item
+                    new Item(ItemType.Perishable) {Name = "+5 Dexterity Vest", SellIn = 10, Quality = 20},
+                    new Item(ItemType.Aging) {Name = "Aged Brie", SellIn = 2, Quality = 0},
+                    new Item(ItemType.Perishable) {Name = "Elixir of the Mongoose", SellIn = 5, Quality = 7},
+                    new Item(ItemType.Legendary) {Name = "Sulfuras, Hand of Ragnaros", SellIn = 0, Quality = 80},
+                    new Item(ItemType.Desirable)
                     {
                         Name = "Backstage passes to a TAFKAL80ETC concert",
                         SellIn = 15,
                         Quality = 20
                     },
-                    new Item {Name = "Conjured Mana Cake", SellIn = 3, Quality = 6}
+                    new Item(ItemType.Conjured) {Name = "Conjured Mana Cake", SellIn = 3, Quality = 6}
                 }
             };
 
@@ -59,28 +59,25 @@ namespace GildedRose.Console
         {
             foreach (var item in items)
             {
-                if (item.Name == "Aged Brie"
-                    || item.Name == "Merlot Red Wine"
-                    || item.Name == "Stilton"
-                    || item.Name == "Gruyere Cheese")
+                switch (item.ItemType)
                 {
-                    UpdateAgeingItem(item);
-                }
-                else if (item.Name == "Backstage passes to a TAFKAL80ETC concert")
-                {
-                    UpdateDesirableEventItem(item);
-                }
-                else if (item.Name == "Sulfuras, Hand of Ragnaros")
-                {
-                    UpdateLegendaryItem(item);
-                }
-                else if (item.Name == "Conjured Mana Cake")
-                {
-                    UpdateConjuredItem(item);
-                } 
-                else
-                {
-                    UpdatePerishableItem(item);
+                    case ItemType.Perishable:
+                        UpdatePerishableItem(item);
+                        break;
+                    case ItemType.Desirable:
+                        UpdateDesirableEventItem(item);
+                        break;
+                    case ItemType.Legendary:
+                        UpdateLegendaryItem(item);
+                        break;
+                    case ItemType.Aging:
+                        UpdateAgeingItem(item);
+                        break;
+                    case ItemType.Conjured:
+                        UpdateConjuredItem(item);
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
                 }
             }
         }
